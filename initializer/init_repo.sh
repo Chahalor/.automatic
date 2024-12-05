@@ -14,7 +14,7 @@ CREDITS="nduvoid"
 list_dir=("includes" "src" ".test")
 list_file=(".gitignore" "TODO.md" "makefile")
 list_languages=('C')
-templates_path=/home/nduvoid/.automatic/template
+templates_path=/home/nduvoid/Desktop/connerie/.automatic/template
 
 # File Content
 # None...
@@ -66,7 +66,8 @@ while getopts "bcdhlqv" opt; do
 			;;
 	esac
 done
-# ├── └── │ ┌─ └─ ┬ ├ │
+
+# ├── └── │ ┌─ └─ ┬ ├ │ ┐
 # Options display
 if [ "$quiet" -eq 1 ]; then
 	exec 1>/dev/null
@@ -98,79 +99,58 @@ if [ "$language" != "" ]; then
 fi
 
 
-# Main
-echo -e "⚙️ $YELLOW directory creation $RESET ⚙️"
-for i in "${!list_dir[@]}"; do
-	cp -r "$templates_path/${list_dir[$i]}" "${list_dir[$i]}"
-	cp_output=$?
-	if [ "$cp_output" -ne 0 ]; then
-		echo -e "$RED Fail to create ${list_dir[$i]} $RESET ❌"
-		if [debug -eq 1]; then
-			echo -e "	$cp_output"
+# Functions
+write_file()
+{
+	file=$1
+	i=$2
+	doc=$3
+	success=$4
+	color=""
+
+	if [ "$success" -eq 1 ]; then
+		if [ "$i" -eq "$(($doc - 1))" ]; then
+			echo -e "$YELLOW└── $file $RESET"
+		else
+			echo -e "$YELLOW├── $file $RESET"
+		fi
+	else
+		if [ "$i" -eq "$(($doc - 1))" ]; then
+			echo -e "$YELLOW└──┐$RED Fail to create $file $RESET"
+		else
+			echo -e "$YELLOW├──┐$RED Fail to create $file $RESET"
+		fi
+		echo -e "  $YELLOW └──$RESET $cp_output"
 		((nb_err_dir++));
 	fi
-	elif [ "$i" -eq "$((${#list_dir[@]} - 1))" ]; then
-		echo -e "$YELLOW└── /${list_dir[$i]} $RESET"
-	else
-		echo -e "$YELLOW├── /${list_dir[$i]} $RESET"
-	fi
-done
+}
+
+create_file()
+{
+	path=$1
+	files=($(ls -A "$path"))
+	i=0
+	for doc in "${files[@]}"; do
+		cp -r "$path/$doc" "$doc"
+		cp_output=$?
+		if [ "$cp_output" -ne 0 ]; then
+			write_file "$cp_output" "$i" "${#files[@]}" 0
+		else 
+			write_file "$doc" "$i" "${#files[@]}" 1
+		fi
+		((i++))
+	done
+}
+
+# Main
+echo -e "⚙️ $YELLOW directory creation $RESET ⚙️"
+
+create_file "$templates_path"
 
 if [ "$nb_err_dir" -gt 0 ]; then
-	echo -e "$RED $nb_err_dir/${#list_dir[@]} directory failed to create $RESET ❌"
+	echo -e "$RED $nb_err_dir/TODO File creation Fail $RESET ❌"
 else
-	echo -e "$GREEN ${#list_dir[@]}/${#list_dir[@]} Directory create with success $RESET ✅";
-fi
-
-
-echo -e "⚙️ $YELLOW File creation $RESET ⚙️"
-for i in "${!list_file[@]}"; do
-	cp "$templates_path/${list_file[$i]}" "${list_file[$i]}"
-	cp_output=$?
-	if [ "$cp_output" -ne 0 ]; then
-		echo -e "$RED Fail to create ${list_file[$i]} $RESET ❌"
-		if [debug -eq 1]; then
-			echo -e "	$cp_output"
-		((nb_err_file++));
-	fi
-	elif [ "$i" -eq "$((${#list_file[@]} - 1))" ]; then
-		echo -e "$YELLOW└── ${list_file[$i]} $RESET"
-	else
-		echo -e "$YELLOW├── ${list_file[$i]} $RESET"
-	fi
-done
-
-if [ "$nb_err_file" -gt 0 ]; then
-	echo -e "$RED $nb_err_file/${#list_file[@]} file failed to create $RESET ❌"
-else
-	echo -e "$GREEN ${#list_file[@]}/${#list_file[@]} File create with success $RESET ✅";
-fi
-
-if [ "$bonus" -eq 1 ]; then
-	echo -e "⚙️ $YELLOW Bonus file creation $RESET ⚙️"
-	cp -r "$templates_path/'src bonus'" 'src bonus'
-	cp_output=$?
-	if [ "$cp_output" -ne 0 ]; then
-		echo -e "$RED Fail to create bonus dir $RESET ❌"
-		if [debug -eq 1]; then
-			echo -e "	$cp_output"
-		fi
-		((nb_err_bonus++));
-	fi
-	cp "$templates_path/'includes bonus'" 'includes bonus'
-	cp_output=$?
-	if [ "$cp_output" -ne 0 ]; then
-		echo -e "$RED Fail to create bonus dir $RESET ❌"
-		if [debug -eq 1]; then
-			echo -e "	$cp_output"
-		fi
-		((nb_err_bonus++));
-	fi
-	if [ "$nb_err_bonus" -gt 0 ]; then
-		echo -e "$RED $nb_err_bonus/2 bonus file failed to create $RESET ❌"
-	else
-		echo -e "$GREEN Bonus file created with success $RESET ✅"
-	fi
+	echo -e "$GREEN TODO File create with success $RESET ✅";
 fi
 
 echo ""
