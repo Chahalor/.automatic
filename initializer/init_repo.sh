@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# big header 
+
 # colors
 RED='\e[0;31m'
 GREEN='\e[0;32m'
@@ -9,6 +11,10 @@ RESET='\e[0m'
 # Global Var
 VERSION="0.1"
 CREDITS="nduvoid"
+
+# variables
+nb_file_created=0
+total_file=0
 
 # File and Dir List
 list_dir=("includes" "src" ".test")
@@ -106,7 +112,6 @@ write_file()
 	i=$2
 	doc=$3
 	success=$4
-	color=""
 
 	if [ "$success" -eq 1 ]; then
 		if [ "$i" -eq "$(($doc - 1))" ]; then
@@ -131,12 +136,14 @@ create_file()
 	files=($(ls -A "$path"))
 	i=0
 	for doc in "${files[@]}"; do
+		total_file=$(($total_file + 1))
 		cp -r "$path/$doc" "$doc"
 		cp_output=$?
 		if [ "$cp_output" -ne 0 ]; then
 			write_file "$cp_output" "$i" "${#files[@]}" 0
 		else 
 			write_file "$doc" "$i" "${#files[@]}" 1
+			((nb_file_created++))
 		fi
 		((i++))
 	done
@@ -148,10 +155,9 @@ echo -e "⚙️ $YELLOW directory creation $RESET ⚙️"
 create_file "$templates_path"
 
 if [ "$nb_err_dir" -gt 0 ]; then
-	echo -e "$RED $nb_err_dir/TODO File creation Fail $RESET ❌"
+	echo -e "$RED $nb_err_dir/$total_file File creation Fail $RESET ❌"
+	echo -e "$YELLOW file created $nb_file_created $RESET ❌"
 else
-	echo -e "$GREEN TODO File create with success $RESET ✅";
+	echo -e "$GREEN $nb_file_created/$total_file File create with success $RESET ✅";
 fi
-
-echo ""
 echo -e "$GREEN Repository initialized $RESET ✅"
