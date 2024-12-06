@@ -19,4 +19,7 @@
  - [ ] la regle bonus qui ajoute les dir/file bonus a template et qui ajoute pas ses fichier dans d autre cas
  - [ ] dans tout les cas, mettre a jour le -h
  - [ ] gestion des --<args>
+ - [ ] la gestion du fichier version
+ - [ ] un installer
  - [ ] ...
+ 
