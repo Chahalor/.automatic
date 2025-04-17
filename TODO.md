@@ -1,3 +1,3 @@
 # TODO: .automatic
 
-todo
+ - [ ] copy the .zshrc file from 42
