@@ -106,7 +106,7 @@ alias parrot=/home/nduvoid/parrot.sh
 
 alias push=/home/nduvoid/.automatic/alias/git/push.sh
 alias merge=/home/nduvoid/.automatic/alias/git/merger.sh
-alias pull='/home/nduvoid/.automatic/alias/pull.sh'
+alias pull='/home/nduvoid/.automatic/alias/git/pull.sh'
 alias clone='git clone'
 
 # alias suicide=/home/nduvoid/.automatic/suicide.sh

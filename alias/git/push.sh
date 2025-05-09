@@ -5,7 +5,7 @@
 # *********************************************************** #
 
 
-if [ -f "Makefile" ]; then
+if [[ -f "Makefile" || -f "makefile" ]]; then
 	make fclean
 fi
 
