@@ -1,20 +1,59 @@
 #!/bin/bash
 
 # *********************************************************** #
-# ******Push the current branch to the remote repository***** #
+# ****** Push the current branch to the remote repo ********* #
 # *********************************************************** #
 
+# Exit if any command fails
+set -e
 
+# Auto-clean build files if Makefile exists
 if [[ -f "Makefile" || -f "makefile" ]]; then
+	echo "Running make fclean..."
 	make fclean
 fi
 
-git add .
+# Stage all changes
+git add -A
 
+# Commit message
 if [ -z "$1" ]; then
-	git commit -m "auto push"
+	COMMIT_MSG="auto push"
 else
-	git commit -m "$1"
+	COMMIT_MSG="$1"
 fi
 
-git push
+# Check for staged changes before committing
+if git diff --cached --quiet; then
+	echo "No changes to commit."
+else
+	echo "Committing changes: $COMMIT_MSG"
+	git commit -m "$COMMIT_MSG"
+fi
+
+# Push to current branch
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+echo "Pushing to branch: $BRANCH"
+git push origin "$BRANCH"
+
+
+# #!/bin/bash
+
+# # *********************************************************** #
+# # ******Push the current branch to the remote repository***** #
+# # *********************************************************** #
+
+
+# if [[ -f "Makefile" || -f "makefile" ]]; then
+# 	make fclean
+# fi
+
+# git add .
+
+# if [ -z "$1" ]; then
+# 	git commit -m "auto push"
+# else
+# 	git commit -m "$1"
+# fi
+
+# git push
