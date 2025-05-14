@@ -1,8 +1,10 @@
 #!/bin/bash
 
-# This script pulls the latest changes from the remote repository and updates the local repository.
-# Usage: ./pull.sh [init|all|help] [path] or pull [init|all|help] [path]
-# Version: 2.0
+# *********************************************************** #
+# ***** Pull the current branch from the remote repo ******** #
+# *********************************************************** #
+#  - Version: 2.0
+#  - Usage: ./pull.sh [init|all|help] [path] or pull [init|all|help] [path]
 
 MODE="default"
 TARGET_PATH="."

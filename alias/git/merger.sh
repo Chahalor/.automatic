@@ -1,16 +1,39 @@
-# an automatic merger for git
+#!/bin/bash
 
-# Big Header
+# *********************************************************** #
+# ******** Automatic git merger with rebase support ********* #
+# *********************************************************** #
+#  - Version: 2.0
+#  - Usage: ./merger.sh [commit message] || merge [commit message]
 
-git add .
+# Exit immediately on errors
+set -e
 
-if [ -z "$1" ]
-then
-	git commit -m "Auto commit"
+# Stage all changes
+git add -A
+
+# Determine commit message
+if [ -z "$1" ]; then
+	COMMIT_MSG="Auto commit"
 else
-	git commit -m "$1"
+	COMMIT_MSG="$1"
 fi
 
-git pull --rebase
+# Commit only if there are staged changes
+if git diff --cached --quiet; then
+	echo "No changes to commit."
+else
+	echo "Committing changes: $COMMIT_MSG"
+	git commit -m "$COMMIT_MSG"
+fi
 
-git push
+# Get current branch
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# Pull with rebase to avoid merge commits
+echo "Rebasing latest changes from origin/$BRANCH..."
+git pull --rebase origin "$BRANCH"
+
+# Push changes
+echo "Pushing to origin/$BRANCH..."
+git push origin "$BRANCH"
