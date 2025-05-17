@@ -30,6 +30,14 @@ new: init_new
 
 dotfile: init_dotfile
 
+setup:
+	@if [ -f ~/login.sh ]; then \
+		if ! grep -Fxq "git pull ~/.automatic;" ~/login.sh; then \
+			echo "git pull ~/.automatic;" >> ~/login.sh; \
+		fi \
+	fi
+
+
 # **************************** #
 # ********* Includes ********* #
 # **************************** #
