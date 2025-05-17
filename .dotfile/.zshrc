@@ -1,13 +1,14 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
-# Path to your oh-my-zsh installation.
+# Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
+# load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+# ZSH_THEME="robbyrussell"
 ZSH_THEME="random"
 
 # Set list of themes to pick from when loading at random
@@ -70,7 +71,8 @@ ZSH_THEME="random"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git)
+plugins=(git zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -85,30 +87,52 @@ source $ZSH/oh-my-zsh.sh
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
 # else
-#   export EDITOR='mvim'
+#   export EDITOR='nvim'
 # fi
 
 # Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+# export ARCHFLAGS="-arch $(uname -m)"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# Set personal aliases, overriding those provided by Oh My Zsh libs,
+# plugins, and themes. Aliases can be placed here, though Oh My Zsh
+# users are encouraged to define aliases within a top-level file in
+# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
+# - $ZSH_CUSTOM/aliases.zsh
+# - $ZSH_CUSTOM/macos.zsh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-. ~/.oh-my-zsh/custom/plugins/zsh.command-not-found
 
-export PATH=/home/nduvoid/.local/funcheck/host:$PATH
-alias parrot=/home/nduvoid/parrot.sh
+# Commands
+alias ls='ls --color=auto'
+alias ll='ls -alF'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias grep='grep --color=auto'
 
-alias push=/home/nduvoid/.automatic/alias/git/push.sh
-alias merge=/home/nduvoid/.automatic/alias/git/merger.sh
+# Git
+alias gcl='git clone'
+alias gcm='git commit -m'
+
+# Created by `pipx` on 2025-01-20 09:15:25
+export PATH="$PATH:/home/nduvoid/.local/bin"
+# Activer l'historique
+HISTFILE=~/.zsh_history   # Fichier où l'historique est enregistré
+HISTSIZE=10000            # Nombre de commandes à garder en mémoire
+SAVEHIST=10000            # Nombre de commandes à sauvegarder dans le fichier
+setopt inc_append_history # Ajouter les commandes au fichier d'historique immédiatement
+setopt share_history      # Partager l'historique entre les sessions zsh
+setopt hist_ignore_dups   # Ignorer les doublons
+setopt hist_ignore_space  # Ne pas enregistrer les commandes commençant par un espace
+# Alias from .automatic
+alias russian='/home/nduvoid/.automatic/alias/troll/russian.sh'
+alias suicide='/home/nduvoid/.automatic/alias/troll/suicide.sh'
+alias push='/home/nduvoid/.automatic/alias/git/push.sh'
+alias merger='/home/nduvoid/.automatic/alias/git/merger.sh'
 alias pull='/home/nduvoid/.automatic/alias/git/pull.sh'
-alias clone='git clone'
-
-# alias suicide=/home/nduvoid/.automatic/suicide.sh
-alias suicide=':(){:|:};:'
-export PATH=/home/nduvoid/.local/bin:$PATH
+alias new='/home/nduvoid/.automatic/new/new.sh'

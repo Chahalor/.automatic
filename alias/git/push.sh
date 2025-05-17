@@ -12,7 +12,7 @@ set -e
 # Auto-clean build files if Makefile exists
 if [[ -f "Makefile" || -f "makefile" ]]; then
 	echo "Running make fclean..."
-	make fclean
+	make fclean || true
 fi
 
 # Stage all changes
