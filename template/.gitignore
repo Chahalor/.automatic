@@ -1,8 +1,0 @@
-.test
-.obj
-.vscode
-
-*.o
-*.a
-*.out
-*.exe
