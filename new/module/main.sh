@@ -7,14 +7,15 @@ main()
 		exit 1
 	fi
 
-	echo "Creating a new module: $1"
-	mkdir -p "$1" "$1/_internal"
-	touch "$1/$1.c" "$1/$1.h" "$1/_internal/_$1.c" "$1/_internal/_$1.h"
+	dir="$1"
+	echo "Creating a new module: ${dir}..."
+	mkdir -p "${dir}" "${dir}/_internal"
+	touch "${dir}/$(basename ${dir}).c" "${dir}/$(basename ${dir}).h" "${dir}/_internal/_$(basename ${dir}).c" "${dir}/_internal/_$(basename ${dir}).h"
 	echo "Module $1 created successfully."
 
 	if [[ -f Makefile || -f makefile ]]; then
 		echo "Updating Makefile..."
-		make -C "$1" update
+		make update
 	fi
 }
 
