@@ -140,9 +140,4 @@ alias merge='~/.automatic/alias/git/merger.sh'
 alias pull='~/.automatic/alias/git/pull.sh'
 alias new='~/.automatic/new/new.sh'
 
-export MANPATH="$HOME/.local/man:$MANPATH"alias merger='/home/nduvoid/.automatic/alias/git/merger.sh'
-alias pull='/home/nduvoid/.automatic/alias/git/pull.sh'
-alias push='/home/nduvoid/.automatic/alias/git/push.sh'
-alias russian='/home/nduvoid/.automatic/alias/troll/russian.sh'
-alias suicide='/home/nduvoid/.automatic/alias/troll/suicide.sh'
-alias new='/home/nduvoid/.automatic/new/new.sh'
+export MANPATH="$HOME/.local/man:$MANPATH"
