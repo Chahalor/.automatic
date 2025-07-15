@@ -28,7 +28,3 @@ init_dotfile:
 			echo "❌ failed to link $$file"; \
 		fi; \
 	done
-# @echo "🔗 Linking ~/.zshrc → .dotfile/.zshrc"
-# @rm -f ~/.zshrc
-# @ln -sf "$(realpath .dotfile/.zshrc)" ~/.zshrc
-# @ln -sf "$(realpath .dotfile/.vimrc)" ~/.vimrc
