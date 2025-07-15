@@ -2,7 +2,6 @@
 
 # This makefile will initialize .automatic on a new place
 
-
 # **************************** #
 # ******** Variables ********* #
 # **************************** #
@@ -11,6 +10,14 @@ DIR_MAIN = ~/.automatic
 DIR_NEW = $(DIR_MAIN)/new
 DIR_DOTFILE = $(DIR_MAIN)/.dotfile
 DIR_ALIAS = $(DIR_MAIN)/alias
+
+# **************************** #
+# ********* Includes ********* #
+# **************************** #
+
+-include $(DIR_NEW)/makefile.mk
+-include $(DIR_DOTFILE)/makefile.mk
+-include $(DIR_ALIAS)/makefile.mk
 
 # **************************** #
 # ********** Rules *********** #
@@ -36,12 +43,3 @@ setup:
 			echo "git pull ~/.automatic;" >> ~/login.sh; \
 		fi \
 	fi
-
-
-# **************************** #
-# ********* Includes ********* #
-# **************************** #
-
-include $(DIR_NEW)/makefile.mk
-include $(DIR_DOTFILE)/makefile.mk
-include $(DIR_ALIAS)/makefile.mk

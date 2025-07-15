@@ -14,12 +14,21 @@
 
 .PHONY: init_dotfile
 
+_DOT_FILES := .zshrc .vimrc
+_DOT_FILES := $(addprefix .dotfile/,$(_DOT_FILES))
+
 init_dotfile:
-	@if [ ! -f .dotfile/.zshrc ]; then \
-		echo "❌ .dotfile/.zshrc is missing!"; \
-		exit 1; \
-	fi
-	@echo "🔗 Linking ~/.zshrc → .dotfile/.zshrc"
-	@rm -f ~/.zshrc
-	@ln -sf "$(realpath .dotfile/.zshrc)" ~/.zshrc
-	
+	@for file in $(_DOT_FILES); do \
+		if [ ! -f "$$file" ]; then \
+			echo "❌ $$file is missing!"; \
+			exit 1; \
+		else \
+			ln -sf "$$(realpath $$file)" ~/"$$(basename $$file)" && \
+			echo "🔗 Linking $$file → ~/$$(basename $$file)" || \
+			echo "❌ failed to link $$file"; \
+		fi; \
+	done
+# @echo "🔗 Linking ~/.zshrc → .dotfile/.zshrc"
+# @rm -f ~/.zshrc
+# @ln -sf "$(realpath .dotfile/.zshrc)" ~/.zshrc
+# @ln -sf "$(realpath .dotfile/.vimrc)" ~/.vimrc

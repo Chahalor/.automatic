@@ -4,12 +4,21 @@
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
+# Activer l'historique
+HISTFILE=~/.zsh_history   # Fichier où l'historique est enregistré
+HISTSIZE=10000            # Nombre de commandes à garder en mémoire
+SAVEHIST=10000            # Nombre de commandes à sauvegarder dans le fichier
+setopt inc_append_history # Ajouter les commandes au fichier d'historique immédiatement
+setopt share_history      # Partager l'historique entre les sessions zsh
+setopt hist_ignore_dups   # Ignorer les doublons
+setopt hist_ignore_space  # Ne pas enregistrer les commandes commençant par un espace
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
-ZSH_THEME="random"
+ZSH_THEME="random" # set by `omz`
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -121,18 +130,19 @@ alias gcm='git commit -m'
 
 # Created by `pipx` on 2025-01-20 09:15:25
 export PATH="$PATH:/home/nduvoid/.local/bin"
-# Activer l'historique
-HISTFILE=~/.zsh_history   # Fichier où l'historique est enregistré
-HISTSIZE=10000            # Nombre de commandes à garder en mémoire
-SAVEHIST=10000            # Nombre de commandes à sauvegarder dans le fichier
-setopt inc_append_history # Ajouter les commandes au fichier d'historique immédiatement
-setopt share_history      # Partager l'historique entre les sessions zsh
-setopt hist_ignore_dups   # Ignorer les doublons
-setopt hist_ignore_space  # Ne pas enregistrer les commandes commençant par un espace
+export PATH=$(echo "$PATH" | tr ':' '\n' | awk '!seen[$0]++' | paste -sd:)
+
 # Alias from .automatic
+alias russian='~/.automatic/alias/troll/russian.sh'
+alias suicide='~/.automatic/alias/troll/suicide.sh'
+alias push='~/.automatic/alias/git/push.sh'
+alias merge='~/.automatic/alias/git/merger.sh'
+alias pull='~/.automatic/alias/git/pull.sh'
+alias new='~/.automatic/new/new.sh'
+
+export MANPATH="$HOME/.local/man:$MANPATH"alias merger='/home/nduvoid/.automatic/alias/git/merger.sh'
+alias pull='/home/nduvoid/.automatic/alias/git/pull.sh'
+alias push='/home/nduvoid/.automatic/alias/git/push.sh'
 alias russian='/home/nduvoid/.automatic/alias/troll/russian.sh'
 alias suicide='/home/nduvoid/.automatic/alias/troll/suicide.sh'
-alias push='/home/nduvoid/.automatic/alias/git/push.sh'
-alias merger='/home/nduvoid/.automatic/alias/git/merger.sh'
-alias pull='/home/nduvoid/.automatic/alias/git/pull.sh'
 alias new='/home/nduvoid/.automatic/new/new.sh'
