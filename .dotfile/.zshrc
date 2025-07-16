@@ -127,6 +127,7 @@ alias grep='grep --color=auto'
 # Git
 alias gcl='git clone'
 alias gcm='git commit -m'
+alias gti='git'
 
 # Created by `pipx` on 2025-01-20 09:15:25
 export PATH="$PATH:/home/nduvoid/.local/bin"
