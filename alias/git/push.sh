@@ -3,7 +3,7 @@
 # *********************************************************** #
 # ****** Push the current branch to the remote repo ********* #
 # *********************************************************** #
-#  - Version: 2.0
+#  - Version: 2.1
 #  - Usage: ./push.sh [commit message] || push [commit message]
 
 # Exit if any command fails
@@ -36,26 +36,11 @@ fi
 # Push to current branch
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 echo "Pushing to branch: $BRANCH"
-git push origin "$BRANCH"
+if ! git ls-remote origin; then
+	echo "Cannot access remote repository. Please check your network connection or remote URL."
+	exit 1
+else
+	git push origin "$BRANCH"
+fi
 
-
-# #!/bin/bash
-
-# # *********************************************************** #
-# # ******Push the current branch to the remote repository***** #
-# # *********************************************************** #
-
-
-# if [[ -f "Makefile" || -f "makefile" ]]; then
-# 	make fclean
-# fi
-
-# git add .
-
-# if [ -z "$1" ]; then
-# 	git commit -m "auto push"
-# else
-# 	git commit -m "$1"
-# fi
-
-# git push
+exit 0
