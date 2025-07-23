@@ -6,7 +6,7 @@
 # ******** Variables ********* #
 # **************************** #
 
-DIR_MAIN = ~/.automatic
+DIR_MAIN = ~/automatic
 DIR_NEW = $(DIR_MAIN)/new
 DIR_DOTFILE = $(DIR_MAIN)/.dotfile
 DIR_ALIAS = $(DIR_MAIN)/alias

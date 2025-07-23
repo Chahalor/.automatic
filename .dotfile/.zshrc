@@ -134,11 +134,9 @@ export PATH="$PATH:/home/nduvoid/.local/bin"
 export PATH=$(echo "$PATH" | tr ':' '\n' | awk '!seen[$0]++' | paste -sd:)
 
 # Alias from .automatic
-alias russian='~/.automatic/alias/troll/russian.sh'
-alias suicide='~/.automatic/alias/troll/suicide.sh'
-alias push='~/.automatic/alias/git/push.sh'
-alias merge='~/.automatic/alias/git/merger.sh'
-alias pull='~/.automatic/alias/git/pull.sh'
-alias new='~/.automatic/new/new.sh'
-
-export MANPATH="$HOME/.local/man:$MANPATH"
+alias russian='~/automatic/alias/troll/russian.sh'
+alias suicide='~/automatic/alias/troll/suicide.sh'
+alias push='~/automatic/alias/git/push.sh'
+alias merge='~/automatic/alias/git/merger.sh'
+alias pull='~/automatic/alias/git/pull.sh'
+alias new='~/automatic/new/new.sh'

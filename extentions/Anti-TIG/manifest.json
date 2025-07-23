@@ -1,0 +1,19 @@
+{
+	"manifest_version": 2,
+	"name": "Anti-TIG",
+	"version": "1.0",
+	"description": "Don't let people TIG you!",
+	"content_scripts": [
+		{
+			"matches": ["https://shop.intra.42.fr/*"],
+			"js": ["content.js"],
+			"run_at": "document_idle"
+		}
+	],
+	"web_accessible_resources": [
+		"images/trollface-troll-face-terror-png.gif"
+	],
+	"permissions": [
+		"https://shop.intra.42.fr/*"
+	]
+}
