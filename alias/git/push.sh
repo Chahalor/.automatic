@@ -3,7 +3,7 @@
 # *********************************************************** #
 # ****** Push the current branch to the remote repo ********* #
 # *********************************************************** #
-#  - Version: 2.1
+#  - Version: 2.1.1
 #  - Usage: ./push.sh [commit message] || push [commit message]
 
 # Exit if any command fails
