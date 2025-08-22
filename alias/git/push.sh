@@ -3,7 +3,7 @@
 # *********************************************************** #
 # ****** Push the current branch to the remote repo ********* #
 # *********************************************************** #
-#  - Version: 2.0
+#  - Version: 2.1
 #  - Usage: ./push.sh [commit message] || push [commit message]
 
 # Exit if any command fails
@@ -14,6 +14,9 @@ if [[ -f "Makefile" || -f "makefile" ]]; then
 	echo "Running make fclean..."
 	make fclean || true
 fi
+
+git status
+read -p "Press [Enter] to continue or Ctrl+C to abort..."
 
 # Stage all changes
 git add -A
@@ -37,25 +40,3 @@ fi
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 echo "Pushing to branch: $BRANCH"
 git push origin "$BRANCH"
-
-
-# #!/bin/bash
-
-# # *********************************************************** #
-# # ******Push the current branch to the remote repository***** #
-# # *********************************************************** #
-
-
-# if [[ -f "Makefile" || -f "makefile" ]]; then
-# 	make fclean
-# fi
-
-# git add .
-
-# if [ -z "$1" ]; then
-# 	git commit -m "auto push"
-# else
-# 	git commit -m "$1"
-# fi
-
-# git push
