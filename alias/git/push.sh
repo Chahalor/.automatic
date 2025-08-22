@@ -9,14 +9,19 @@
 # Exit if any command fails
 set -e
 
+git status
+if git diff --quiet && git diff --cached --quiet && [[ -z $(git ls-files --others --exclude-standard) ]] && git log origin/$(git rev-parse --abbrev-ref HEAD)..HEAD --oneline | grep -q '^$'; then
+	echo "✅ Rien à commit ni à push, on quitte."
+	exit 0
+else
+	read -p "Press [Enter] to continue or Ctrl+C to abort..."
+fi
+
 # Auto-clean build files if Makefile exists
 if [[ -f "Makefile" || -f "makefile" ]]; then
 	echo "Running make fclean..."
 	make fclean || true
 fi
-
-git status
-read -p "Press [Enter] to continue or Ctrl+C to abort..."
 
 # Stage all changes
 git add -A
