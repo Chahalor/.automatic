@@ -3,10 +3,10 @@
 # *********************************************************** #
 # ****** create a new issue in the repository       ********* #
 # *********************************************************** #
-#  - Version: 2.0.0
+#  - Version: 2.1.0
 #  - Usage: ./issue.sh <action: open/close>
 #						- close <issue_number>
-#						- open <title> <content> <labels>
+#						- open [<issue_number> or <title> <content> <labels>]
 
 # Exit if any command fails
 set -e
@@ -14,9 +14,17 @@ set -e
 function print_usage()
 {
 	echo "Usage: $0 <action: open/close>"
-	echo "  - open <title> <content> <labels>"
+	echo "  - open [<issue_number> or <title> <content> <labels>]"
 	echo "  - close <issue_number>"
 	exit 1
+}
+
+function check_token()
+{
+	if [ -z "$GITHUB_TOKEN" ]; then
+		echo "Error: GITHUB_TOKEN is not set. Please set it in $AUTOMATIC_PATH/config.json: 'alias.git.issue.GITHUB_TOKEN'."
+		exit 1
+	fi
 }
 
 function action_open()
@@ -25,30 +33,39 @@ function action_open()
 	CONTENT="$2"
 	LABEL="$3"
 
-	# Token GitHub depuis variable d'environnement
-	if [ -z "$GITHUB_TOKEN" ]; then
-		echo "Error: GITHUB_TOKEN is not set. Please set it in $AUTOMATIC_PATH/config.json: 'alias.git.issue.GITHUB_TOKEN'."
-		exit 1
-	fi
+	check_token
 
-	# Création de l'issue via API GitHub
+	# Create issue via GitHub API
 	curl -s -X POST \
 		-H "Authorization: token $GITHUB_TOKEN" \
 		-H "Accept: application/vnd.github.v3+json" \
 		"https://api.github.com/repos/$OWNER/$REPO/issues" \
 		-d "$(jq -n --arg t "$TITLE" --arg b "$CONTENT" --arg l "$LABEL" '{title:$t, body:$b, labels:[$l]}')"
 
-	echo "Issue '$TITLE' créée avec le label '$LABEL'."
+	echo "Issue '$TITLE' created with label '$LABEL'."
+}
+
+function action_reopen()
+{
+	ISSUE_NUMBER="$1"
+
+	check_token
+
+	curl -s -X PATCH \
+		-H "Authorization: token $GITHUB_TOKEN" \
+		-H "Accept: application/vnd.github.v3+json" \
+		"https://api.github.com/repos/$OWNER/$REPO/issues/$ISSUE_NUMBER" \
+		-d '{
+			"state": "open"
+		}'
+	echo "Issue #$ISSUE_NUMBER opened."
 }
 
 function action_close()
 {
 	ISSUE_NUMBER="$1"
 
-	if [ -z "$GITHUB_TOKEN" ]; then
-		echo "Error: GITHUB_TOKEN is not set. Please set it in $AUTOMATIC_PATH/config.json: 'alias.git.issue.GITHUB_TOKEN'."
-		exit 1
-	fi
+	check_token
 
 	curl -s -X PATCH \
 		-H "Authorization: token $GITHUB_TOKEN" \
@@ -57,8 +74,7 @@ function action_close()
 		-d '{
 			"state": "closed"
 		}'
-	echo "Issue #$ISSUE_NUMBER fermée."
-
+	echo "Issue #$ISSUE_NUMBER closed."
 }
 
 ACTION="$1"
@@ -73,15 +89,20 @@ case "$ACTION" in
 		;;
 esac
 
-# Vérification des arguments
 if [ "$ACTION" == "open" ]; then
-	if [ $# -lt 4 ]; then
+	ARG2="$2"
+	LAST_ARG="${!#}"
+
+	if [ $# -eq 2 ] && [[ "$ARG2" =~ ^[0-9]+$ ]]; then
+		ACTION="reopen"
+	elif [ $# -lt 4 ]; then
 		echo "Usage: $0 open <title> <content> <labels>"
 		exit 1
+	else
+		TITLE="$2"
+		CONTENT="$3"
+		LABELS="$4"
 	fi
-	TITLE="$2"
-	CONTENT="$3"
-	LABELS="$4"
 elif [ "$ACTION" == "close" ]; then
 	if [ $# -lt 2 ]; then
 		echo "Usage: $0 close <issue_number>"
@@ -95,20 +116,24 @@ fi
 
 GITHUB_TOKEN=$(jq -r '.alias.git.issue.GITHUB_TOKEN' "$AUTOMATIC_PATH/config.json")
 
-# Récupérer l'URL du repo courant
+# get repo info from git config
 REPO_URL=$(git config --get remote.origin.url)
 
 if [[ "$REPO_URL" =~ github.com[:/](.+)/(.+).git ]]; then
 	OWNER="${BASH_REMATCH[1]}"
 	REPO="${BASH_REMATCH[2]}"
 else
-	echo "Erreur : Impossible de déterminer le repo GitHub à partir de remote.origin.url"
+	echo "Error: Unable to determine GitHub repo from remote.origin.url"
 	exit 1
 fi
 
-# Exécuter l'action
+# Execute action
 if [ "$ACTION" == "open" ]; then
 	action_open "$TITLE" "$CONTENT" "$LABELS"
 elif [ "$ACTION" == "close" ]; then
 	action_close "$ISSUE_NUMBER"
+elif [ "$ACTION" == "reopen" ]; then
+	action_reopen "$ARG2"
+else
+	print_usage
 fi
