@@ -3,7 +3,7 @@
 # *********************************************************** #
 # ****** create a new issue in the repository       ********* #
 # *********************************************************** #
-#  - Version: 2.1.0
+#  - Version: 2.1.1
 #  - Usage: ./issue.sh <action: open/close>
 #						- close <issue_number>
 #						- open [<issue_number> or <title> <content> <labels>]
@@ -36,13 +36,20 @@ function action_open()
 	check_token
 
 	# Create issue via GitHub API
-	curl -s -X POST \
+	response=$(curl -s -X POST \
 		-H "Authorization: token $GITHUB_TOKEN" \
 		-H "Accept: application/vnd.github.v3+json" \
 		"https://api.github.com/repos/$OWNER/$REPO/issues" \
 		-d "$(jq -n --arg t "$TITLE" --arg b "$CONTENT" --arg l "$LABEL" '{title:$t, body:$b, labels:[$l]}')"
+	)
+	issue_id=$(echo "$response" | jq -r '.number')
 
-	echo "Issue '$TITLE' created with label '$LABEL'."
+	if [ "$issue_id" == "null" ]; then
+		echo "Error creating issue: $(echo "$response" | jq -r '.message')"
+		exit 1
+	fi
+
+	echo "Issue '${TITLE}' #${issue_id} created with label '${LABEL}'."
 }
 
 function action_reopen()
@@ -58,6 +65,7 @@ function action_reopen()
 		-d '{
 			"state": "open"
 		}'
+
 	echo "Issue #$ISSUE_NUMBER opened."
 }
 
