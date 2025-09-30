@@ -26,5 +26,3 @@ init_alias:
 		path=$(word 2,$(subst =, ,$(pair))); \
 		alias_line="alias $$name='$$path'"; \
 		grep -qx "$$alias_line" ~/.zshrc || echo "$$alias_line" >> ~/.zshrc;)
-
-

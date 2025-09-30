@@ -30,6 +30,8 @@ all:
 	@echo "Please run 'make init' to initialize the directory"
 
 init: alias new dotfile
+	@grep -q "AUTOMATIC_PATH=" ~/.zshrc || echo 'export AUTOMATIC_PATH="$(realpath $(DIR_MAIN))"' >> ~/.zshrc
+	@echo "✅ .automatic initialized"
 
 alias: init_alias
 

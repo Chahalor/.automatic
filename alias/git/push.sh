@@ -11,7 +11,7 @@ set -e
 
 git status
 if git diff --quiet && git diff --cached --quiet && [[ -z $(git ls-files --others --exclude-standard) ]] && git log origin/$(git rev-parse --abbrev-ref HEAD)..HEAD --oneline | grep -q '^$'; then
-	echo "✅ Rien à commit ni à push, on quitte."
+	echo "✅ no changes to push"
 	exit 0
 else
 	read -p "Press [Enter] to continue or Ctrl+C to abort..."
