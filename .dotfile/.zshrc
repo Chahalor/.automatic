@@ -130,16 +130,19 @@ alias gcl='git clone'
 alias gcm='git commit -m'
 alias gti='git'
 
+alias obsidian='obsidian --no-sandbox'
+
 # Created by `pipx` on 2025-01-20 09:15:25
 export PATH="$PATH:/home/nduvoid/.local/bin"
 export PATH=$(echo "$PATH" | tr ':' '\n' | awk '!seen[$0]++' | paste -sd:)
 
 # Alias from .automatic
+export AUTOMATIC_PATH=/home/nduvoid/automatic
 alias russian='~/automatic/alias/troll/russian.sh'
 alias suicide='~/automatic/alias/troll/suicide.sh'
 alias push='~/automatic/alias/git/push.sh'
 alias merge='~/automatic/alias/git/merger.sh'
 alias pull='~/automatic/alias/git/pull.sh'
 alias new='~/automatic/new/new.sh'
-export PATH=/home/nduvoid/.local/funcheck/host:$PATH
-export AUTOMATIC_PATH=/home/nduvoid/automatic
+
+alias obsidian='obsidian --no-sandbox'
