@@ -153,3 +153,5 @@ alias push='/home/nduvoid/automatic/alias/git/push.sh'
 alias merger='/home/nduvoid/automatic/alias/git/merger.sh'
 alias issue='/home/nduvoid/automatic/alias/git/issue.sh'
 alias pull='/home/nduvoid/automatic/alias/git/pull.sh'
+
+export PATH=/home/nduvoid/.local/funcheck/host:$PATH
