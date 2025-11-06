@@ -140,9 +140,16 @@ export PATH=$(echo "$PATH" | tr ':' '\n' | awk '!seen[$0]++' | paste -sd:)
 export AUTOMATIC_PATH=/home/nduvoid/automatic
 alias russian='~/automatic/alias/troll/russian.sh'
 alias suicide='~/automatic/alias/troll/suicide.sh'
+alias commit='~/automatic/alias/git/commit.sh'
 alias push='~/automatic/alias/git/push.sh'
 alias merge='~/automatic/alias/git/merger.sh'
 alias pull='~/automatic/alias/git/pull.sh'
 alias new='~/automatic/new/new.sh'
 
 alias obsidian='obsidian --no-sandbox'
+alias russian='/home/nduvoid/automatic/alias/troll/russian.sh'
+alias suicide='/home/nduvoid/automatic/alias/troll/suicide.sh'
+alias push='/home/nduvoid/automatic/alias/git/push.sh'
+alias merger='/home/nduvoid/automatic/alias/git/merger.sh'
+alias issue='/home/nduvoid/automatic/alias/git/issue.sh'
+alias pull='/home/nduvoid/automatic/alias/git/pull.sh'
