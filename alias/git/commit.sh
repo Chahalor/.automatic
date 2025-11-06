@@ -3,7 +3,7 @@
 # **************************************************************** #
 # ****** add and commit the current all currents changes ********* #
 # **************************************************************** #
-#  - Version: 2.1.1
+#  - Version: 1.0.0
 #  - Usage: ./commit.sh <commit message>
 
 set -e
