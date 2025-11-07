@@ -135,6 +135,7 @@ alias obsidian='obsidian --no-sandbox'
 # Created by `pipx` on 2025-01-20 09:15:25
 export PATH="$PATH:/home/nduvoid/.local/bin"
 export PATH=$(echo "$PATH" | tr ':' '\n' | awk '!seen[$0]++' | paste -sd:)
+export PATH=/home/nduvoid/.local/funcheck/host:$PATH
 
 # Alias from .automatic
 export AUTOMATIC_PATH=/home/nduvoid/automatic
@@ -154,4 +155,4 @@ alias merger='/home/nduvoid/automatic/alias/git/merger.sh'
 alias issue='/home/nduvoid/automatic/alias/git/issue.sh'
 alias pull='/home/nduvoid/automatic/alias/git/pull.sh'
 
-export PATH=/home/nduvoid/.local/funcheck/host:$PATH
+alias obsidian='nohup obsidian > /dev/null 2>&1 & disown'
