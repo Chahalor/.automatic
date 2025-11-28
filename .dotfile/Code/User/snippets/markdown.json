@@ -1,0 +1,18 @@
+{
+	"TODO": {
+		"prefix": "TODO",
+		"description": "snippet for a TODO.md file",
+		"body": [
+			"# ${TM_FILENAME_BASE}: TODO",
+			"",
+			
+		]
+	},
+	"README": {
+		"prefix": "README",
+		"description": "snippet for a README.md file",
+		"body": [
+
+		]
+	},
+}

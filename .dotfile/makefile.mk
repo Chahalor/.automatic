@@ -18,13 +18,15 @@ _DOT_FILES := .zshrc .vimrc
 _DOT_FILES := $(addprefix .dotfile/,$(_DOT_FILES))
 
 init_dotfile:
-	@for file in $(_DOT_FILES); do \
-		if [ ! -f "$$file" ]; then \
-			echo "❌ $$file is missing!"; \
-			exit 1; \
-		else \
-			ln -sf "$$(realpath $$file)" ~/"$$(basename $$file)" && \
-			echo "🔗 Linking $$file → ~/$$(basename $$file)" || \
-			echo "❌ failed to link $$file"; \
-		fi; \
-	done
+
+
+# 	@for file in $(_DOT_FILES); do \
+# 		if [ ! -f "$$file" ]; then \
+# 			echo "❌ $$file is missing!"; \
+# 			exit 1; \
+# 		else \
+# 			ln -sf "$$(realpath $$file)" ~/"$$(basename $$file)" && \
+# 			echo "🔗 Linking $$file → ~/$$(basename $$file)" || \
+# 			echo "❌ failed to link $$file"; \
+# 		fi; \
+# 	done

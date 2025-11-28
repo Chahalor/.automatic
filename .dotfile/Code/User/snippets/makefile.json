@@ -1,0 +1,16 @@
+{
+	"Makefile42": {
+		"prefix": "42Makefile",
+		"description": "Makefile for 42 projects",
+		"body": [
+
+		]
+	},
+	"Makefile": {
+		"prefix": "Makefile",
+		"description": "standard header for types header file",
+		"body": [
+
+		]
+	},
+}
