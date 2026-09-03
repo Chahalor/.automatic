@@ -20,6 +20,12 @@
 #
 # Recommended usage:
 #   MESSAGE="$(./check.sh "$MESSAGE")"
+#
+# Accepted formats:
+#
+#   type: message
+#   type(scope): message
+#
 
 set -e
 
@@ -46,14 +52,34 @@ select_commit_type()
 	local rest
 	local count=${#COMMIT_TYPES[@]}
 	local tty="/dev/tty"
-
-	# Hide cursor
-	tput civis > "$tty"
+	local menu_lines=$((count + 1))
 
 	restore_cursor()
 	{
 		tput cnorm > "$tty"
 	}
+
+	clear_menu()
+	{
+		# Move back to the first line of the menu
+		printf '\033[%dA' "$menu_lines" > "$tty"
+
+		# Clear every line used by the menu
+		for ((i = 0; i < menu_lines; i++)); do
+			printf '\r\033[2K' > "$tty"
+
+			if (( i < menu_lines - 1 )); then
+				printf '\033[1B' > "$tty"
+			fi
+		done
+
+		# Move to the line directly after the old menu
+		# printf '\033[1B\r' > "$tty"
+		printf '\033[%dA' "$((menu_lines - 1))" > "$tty"
+	}
+
+	# Hide cursor
+	tput civis > "$tty"
 
 	trap 'restore_cursor; exit 130' INT TERM
 	trap 'restore_cursor' EXIT
@@ -106,6 +132,7 @@ select_commit_type()
 	SELECTED_TYPE="${COMMIT_TYPES[$selected]}"
 
 	restore_cursor
+	clear_menu
 	trap - INT TERM EXIT
 }
 
@@ -114,12 +141,6 @@ if [[ -z "$MESSAGE" ]]; then
 	exit 1
 fi
 
-#
-# Accepted formats:
-#
-#   type: message
-#   type(scope): message
-#
 COMMIT_PATTERN='^[[:alnum:]_-]+(\([^()]+\))?:[[:space:]]+.+$'
 
 if [[ "$MESSAGE" =~ $COMMIT_PATTERN ]]; then
