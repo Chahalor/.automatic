@@ -155,8 +155,10 @@ alias merger='/home/nduvoid/automatic/alias/git/merger.sh'
 alias issue='/home/nduvoid/automatic/alias/git/issue.sh'
 alias pull='/home/nduvoid/automatic/alias/git/pull.sh'
 
-alias obsidian='nohup obsidian > /dev/null 2>&1 & disown'
+# alias obsidian='nohup obsidian > /dev/null 2>&1 & disown'
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+bindkey '^H' backward-kill-word

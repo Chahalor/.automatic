@@ -1,33 +1,45 @@
 #!/bin/bash
 
 # **************************************************************** #
-# ****** add and commit the current all currents changes ********* #
+# ****** add and commit all current changes ********************** #
 # **************************************************************** #
-#  - Version: 1.0.0
+#  - Version: 1.2.0
 #  - Usage: ./commit.sh <commit message>
+#
+# Conventional commit format:
+#
+#   type: message
+#   type(scope): message
 
 set -e
 
-MESSAGE="$1"
+BOLD=$'\033[1m'
+BLUE=$'\033[34m'
+RESET=$'\033[0m'
 
-if [ -z "${MESSAGE}" ]; then
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+MESSAGE="$*"
+
+if [[ -z "$MESSAGE" ]]; then
 	echo "no commit message, please add one"
 	exit 1
 fi
 
+MESSAGE="$("$SCRIPT_DIR/check.sh" "$MESSAGE")"
+
+printf "commit message: '%s%s%s%s'\n" "$BOLD" "$BLUE" "$MESSAGE" "$RESET"
+
 git status
-if git diff --quiet && git diff --cached --quiet && [[ -z $(git ls-files --others --exclude-standard) ]] && git log origin/$(git rev-parse --abbrev-ref HEAD)..HEAD --oneline | grep -q '^$'; then
+
+if git diff --quiet \
+	&& git diff --cached --quiet \
+	&& [[ -z "$(git ls-files --others --exclude-standard)" ]]; then
 	echo "✅ no changes to commit"
 	exit 0
-else
-	read -p "Press [Enter] to continue or Ctrl+C to abort..."
 fi
 
-# Auto-clean build files if Makefile exists
-if [[ -f "Makefile" || -f "makefile" ]]; then
-	echo "Running make fclean..."
-	make fclean || true
-fi
+read -rp "Press [Enter] to continue or Ctrl+C to abort..."
 
 git add .
-git commit -m "${MESSAGE}"
+git commit -m "$MESSAGE"
