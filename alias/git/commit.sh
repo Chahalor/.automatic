@@ -28,9 +28,9 @@ fi
 
 MESSAGE="$("$SCRIPT_DIR/check.sh" "$MESSAGE")"
 
-printf "commit message: '%s%s%s%s'\n" "$BOLD" "$BLUE" "$MESSAGE" "$RESET"
-
 git status
+
+printf "commit message: '%s%s%s%s'\n" "$BOLD" "$BLUE" "$MESSAGE" "$RESET"
 
 if git diff --quiet \
 	&& git diff --cached --quiet \
