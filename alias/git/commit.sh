@@ -21,14 +21,14 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 MESSAGE="$*"
 
+git status
+
 if [[ -z "$MESSAGE" ]]; then
 	echo "no commit message, please add one"
 	exit 1
 fi
 
 MESSAGE="$("$SCRIPT_DIR/check.sh" "$MESSAGE")"
-
-git status
 
 printf "commit message: '%s%s%s%s'\n" "$BOLD" "$BLUE" "$MESSAGE" "$RESET"
 

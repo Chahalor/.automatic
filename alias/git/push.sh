@@ -21,14 +21,14 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 MESSAGE="$*"
 
-if git diff --quiet && git diff --cached --quiet && [[ -z $(git ls-files --others --exclude-standard) ]] && git log origin/$(git rev-parse --abbrev-ref HEAD)..HEAD --oneline | grep -q '^$'; then
-	echo "✅ no changes to push"
+if [[ -z "$MESSAGE" ]]; then
+	git push
 	exit 0
 fi
 
-if [[ -z "$MESSAGE" ]]; then
-	echo "no commit message, please add one"
-	exit 1
+if git diff --quiet && git diff --cached --quiet && [[ -z $(git ls-files --others --exclude-standard) ]] && git log origin/$(git rev-parse --abbrev-ref HEAD)..HEAD --oneline | grep -q '^$'; then
+	echo "✅ no changes to push"
+	exit 0
 fi
 
 MESSAGE="$("$SCRIPT_DIR/check.sh" "$MESSAGE")"
